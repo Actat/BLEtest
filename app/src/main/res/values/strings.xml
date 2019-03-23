@@ -12,4 +12,6 @@
     <string name="scan">Scan</string>
     <string name="stop">Stop</string>
     <string name="progress"></string>
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
 </resources>
