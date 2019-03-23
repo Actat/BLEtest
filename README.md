@@ -14,7 +14,7 @@ BLEを使うために必要な諸々を記録しておきたい．
 <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 ```
 
-## 処理
+## 処理@MainActivity
 ### onCreate
 - 「Android端末がBLEをサポートしてるかの確認」と「Bluetoothアダプタの取得」
 
@@ -24,6 +24,9 @@ BLEを使うために必要な諸々を記録しておきたい．
 ### requestBluetoothFeature
 - mBluetoothAdapterで有効になっているかを確認
 - 無効だった場合，有効化を要求する
+
+### onOptionsItemSelected
+- メニューバーにある虫眼鏡が選択されたらDeviceListActivityを呼び出す
 
 ## 参考
 - [BLE通信ソフトを作る ( Android Studio 2.3.3 + RN4020 )](https://www.hiramine.com/programming/blecommunicator/index.html)
