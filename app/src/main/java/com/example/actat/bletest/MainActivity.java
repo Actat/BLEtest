@@ -8,13 +8,19 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int REQUEST_ENABLEBLUETOOTH = 1;// Bluetooth 有効化要求時の識別コード
+    private static final int REQUEST_ENABLEBLUETOOTH = 1; // Bluetooth 有効化要求時の識別コード
+    private static final int REQUEST_CONNECTDEVICE = 2; // デバイス接続要求時の識別コード
 
     private BluetoothAdapter mBluetoothAdapter;
+    private String mDeviceAddress = ""; // デバイスアドレス
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +72,39 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 break;
+            case REQUEST_CONNECTDEVICE:
+                String strDeviceName;
+                if (resultCode == Activity.RESULT_OK) {
+                    // DeviceListActivityから情報を取得する
+                    strDeviceName = data.getStringExtra(DeviceListActivity.EXTRAS_DEVICE_NAME);
+                    mDeviceAddress = data.getStringExtra(DeviceListActivity.EXTRAS_DEVICE_ADDRESS);
+                } else {
+                    strDeviceName = "";
+                    mDeviceAddress = "";
+                }
+                ((TextView)findViewById(R.id.textview_devicename)).setText(strDeviceName);
+                ((TextView)findViewById(R.id.textview_deviceaddress)).setText(mDeviceAddress);
+                break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    // オプションメニュー作成時の処理
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate( R.menu.activity_main, menu );
+        return true;
+    }
+
+    // オプションメニューのアイテム選択時の処理
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.menuitem_search:
+                Intent devicelistactivityIntent = new Intent(this, DeviceListActivity.class);
+                startActivityForResult(devicelistactivityIntent, REQUEST_CONNECTDEVICE);
+                return true;
+        }
+        return false;
     }
 }
