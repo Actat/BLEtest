@@ -28,5 +28,33 @@ BLEを使うために必要な諸々を記録しておきたい．
 ### onOptionsItemSelected
 - メニューバーにある虫眼鏡が選択されたらDeviceListActivityを呼び出す
 
+## 処理@DeviceListActivity
+### onCreate
+- ListViewの設定
+- mHandlerの作成
+- Bluetoothアダプタの取得
+
+### onResume, onPause
+- バックグラウンドに追いやられたらスキャンを止める
+- 再開した場合（と初回表示時）はBluetoothを有効にして，スキャンを始める
+
+### requestBluetoothFeature, onActivityResult
+- bluetoothの有効化
+
+### startScan, stopScan
+- mHandlerを利用してSCAN_PERIOD後にstopScanが呼ばれるようにしたらscanを始める
+- stopScanはmHandlerのRunnableを削除してからscanを止める
+
+### onItemClick
+- MainActivityに選択されたdeviceの名前とアドレスを渡して終了する
+
+### onCreateOptionsMenu, onOptionsItemSelected
+- scan, stop, progressの表示
+- タップされたときに適切な処理の呼び出し
+
+### static class DeviceListAdapter extends BaseAdapter
+- scanして見つけたdeviceを保存するArrayList
+- deviceの名前とアドレスを表示する
+
 ## 参考
 - [BLE通信ソフトを作る ( Android Studio 2.3.3 + RN4020 )](https://www.hiramine.com/programming/blecommunicator/index.html)
